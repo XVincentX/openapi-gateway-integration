@@ -1,5 +1,5 @@
 {
-  "name": "my-glitch-app",
+  "name": "express-gateway-test",
   "version": "0.0.1",
   "main": "server.js",
   "scripts": {
