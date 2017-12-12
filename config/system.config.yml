@@ -20,7 +20,7 @@ accessTokens:
   audience: 'something'
   subject: 'somebody'
   secretOrPrivateKey: 'ssssst'
-  
+
 refreshTokens:
   timeToExpiry: 7200000
 authorizationCodes:

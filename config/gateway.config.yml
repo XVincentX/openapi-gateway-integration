@@ -3,20 +3,19 @@ jwtConf: &jwtConf
   audience: something
   subject: somebody
   secretOrPublicKey: ssssst
-  checkCredentialExistence: false
 
 http:
   port: 3000
 apiEndpoints:
   internaljwt:
     host: '*'
-    path: '/internaljwt'
+    path: /internaljwt
   externaljwt:
     host: '*'
-    path: '/externaljwt'
+    path: /externaljwt
 serviceEndpoints:
   backend:
-    url: 'http://httpbin.org'
+    url: 'http://httpbin.org/ip'
 policies:
   - proxy
   - jwt
@@ -32,13 +31,14 @@ pipelines:
       - proxy: &backend
           action:
             serviceEndpoint: backend
-            changeOrigin: true
+            changeOrigin: false
   externaljwt:
     apiEndpoints:
       - externaljwt
     policies:
       - jwt:
           action:
-            secretOrPublicKeyFile: '/app/key.pem'
+            checkCredentialExistence: false
+            secretOrPublicKeyFile: '/Users/vincenzochianese/dev/express-gateway/lib/config/key.pem'
 
       - proxy: *backend

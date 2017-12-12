@@ -25,5 +25,5 @@ credentialService.insertScopes(['read', 'write'])
   .then(credential => Object.assign(appCredential, credential))
   .then((credential) => {
     console.table('Application credentials',[credential]);
-    gateway().load(path.join(__dirname, 'config')).run()
+    gateway().load(path.join(__dirname, 'config')).run();
   });
