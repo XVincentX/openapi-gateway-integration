@@ -13,31 +13,21 @@ admin:
 apiEndpoints:
   api:
     host: '*'
-  admin:
-    host: '*'
-    paths: /admin
 serviceEndpoints:
   backend:
     url: http://httpbin.org
-  admin:
-    url: http://localhost:9876
-    
-policies:
+    policies:
   - proxy
   - jwt
   - oauth2
 pipelines:
-  adminAPI:
-    apiEndpoints:
-      - admin
-    policies:
-      - proxy:
-          - action:
-              serviceEndpoint: admin
   api:
     apiEndpoints:
       - api
     policies:
+      - oauth2:
+        - action:
+            jwt: *jwtConf
       - proxy:
           - action:
               serviceEndpoint: backend
