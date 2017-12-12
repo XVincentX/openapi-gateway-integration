@@ -1,7 +1,10 @@
 jwtConf: &jwtConf
-  - action:
-      secretOrPubKey: 'superSecretString'
-      checkCredentialExistence: false
+  issuer: 'express-gateway'
+  audience: 'something'
+  subject: 'somebody'
+  secretOrPublicKey: 'ssssst'
+  checkCredentialExistence: false
+  
 http:
   port: 3000
 admin:
@@ -9,19 +12,34 @@ admin:
   hostname: localhost
 apiEndpoints:
   api:
-    host: '*'
+    paths: '/data'
+  admin:
+    path: '/admin'
 serviceEndpoints:
   backend:
     url: 'http://httpbin.org'
+  admin:
+    url: 'http://localhost:9876'
+    
 policies:
   - proxy
   - jwt
+  - oauth2
 pipelines:
   adminAPI:
     apiEndpoints:
+      - admin
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: admin
+  api:
+    apiEndpoints:
       - api
     policies:
-      - jwt: *jwtConf
+      - oauth2:
+        - action:
+            jwt: *jwtConf
       - proxy:
           - action:
               serviceEndpoint: backend

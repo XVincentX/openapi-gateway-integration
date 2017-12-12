@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express-gateway": "https://github.com/ExpressGateway/express-gateway"
+    "express-gateway": "https://github.com/ExpressGateway/express-gateway#feat/oauth2-issue-jwt"
   },
   "engines": {
     "node": "8.x"
