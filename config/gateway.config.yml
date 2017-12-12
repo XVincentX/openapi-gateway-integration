@@ -25,8 +25,9 @@ pipelines:
             jwt:
               issuer: express-gateway
               audience: something
-              subject: somebody
-              secretOrPublicKey: ssssst            
+              subject: test
+              secretOrPublicKey: ssssst
+              checkCredentialExistence: false
       - proxy: &httpBinConf
           action:
             serviceEndpoint: backend
