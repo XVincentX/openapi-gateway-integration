@@ -1,22 +1,12 @@
-jwtConf: &jwtConf
-  issuer: express-gateway
-  audience: something
-  subject: somebody
-  secretOrPublicKey: ssssst
-  checkCredentialExistence: false
-  
 http:
   port: 3000
-admin:
-  port: 9876
-  hostname: localhost
 apiEndpoints:
   api:
     host: '*'
 serviceEndpoints:
   backend:
     url: http://httpbin.org
-    policies:
+policies:
   - proxy
   - jwt
   - oauth2
@@ -27,7 +17,12 @@ pipelines:
     policies:
       - oauth2:
         - action:
-            jwt: *jwtConf
+            jwt:
+              issuer: express-gateway
+              audience: something
+              subject: somebody
+              secretOrPublicKey: ssssst
+              checkCredentialExistence: false            
       - proxy:
           - action:
               serviceEndpoint: backend
