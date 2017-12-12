@@ -6,8 +6,7 @@ jwtConf: &jwtConf
 
 http:
   port: 3000
-admin:
-  port: 9876
+
 apiEndpoints:
   internaljwt:
     host: '*'
@@ -15,27 +14,14 @@ apiEndpoints:
   externaljwt:
     host: '*'
     paths: ['/externaljwt', '/externaljwt/*']
-  admin:
-    host: '*'
-    paths: ['/admin', '/admin/*']
 serviceEndpoints:
   backend:
-    url: 'http://httpbin.org'
-  admin:
-    url: 'http://localhost:9876'
+    url: 'https://google.es'
 policies:
   - proxy
   - jwt
   - oauth2
 pipelines:
-  admin:
-    apiEndpoints:
-      - admin
-    policies:
-      - proxy:
-          action:
-            serviceEndpoint: admin
-            changeOrigin: false
   internaljwt:
     apiEndpoints:
       - internaljwt
@@ -43,10 +29,14 @@ pipelines:
       - oauth2:
           action:
             jwt: *jwtConf
-      - proxy: &backend
+      - proxy: &httpBinConf
           action:
             serviceEndpoint: backend
             changeOrigin: false
+            proxyOptions:
+              prependPath: false
+              ignorePath: true
+              secure: false
   externaljwt:
     apiEndpoints:
       - externaljwt
@@ -56,4 +46,4 @@ pipelines:
             checkCredentialExistence: false
             secretOrPublicKeyFile: '/app/key.pem'
 
-      - proxy: *backend
+      - proxy: *httpBinConf
