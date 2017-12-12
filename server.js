@@ -25,12 +25,9 @@ credentialService.insertScopes(['read', 'write'])
   .then(credential => Object.assign(appCredential, credential))
   .then((c) => {
     console.table([c]);
-    const g = gateway()
-      .load(path.join(__dirname, 'config'));
-    const config = require('express-gateway/lib/config');
-    config.gatewayConfig.http.port = process.env.PORT;
-    config.gatewayConfig.http.host = 'localhost';
-    g.run();
+    gateway()
+      .load(path.join(__dirname, 'config'))
+      .run();
   
 });
 
