@@ -1,9 +1,3 @@
-jwtConf: &jwtConf
-  issuer: express-gateway
-  audience: something
-  subject: somebody
-  secretOrPublicKey: ssssst
-
 http:
   port: 3000
 
@@ -28,7 +22,11 @@ pipelines:
     policies:
       - oauth2:
           action:
-            jwt: *jwtConf
+            jwt:
+              issuer: express-gateway
+              audience: something
+              subject: somebody
+              secretOrPublicKey: ssssst            
       - proxy: &httpBinConf
           action:
             serviceEndpoint: backend
