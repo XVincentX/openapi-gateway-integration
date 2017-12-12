@@ -3,13 +3,16 @@ jwtConf: &jwtConf
   audience: something
   subject: somebody
   secretOrPublicKey: ssssst
+  checkCredentialExistence: false
 
 http:
   port: 3000
 apiEndpoints:
   internaljwt:
+    host: '*'
     path: '/internaljwt'
   externaljwt:
+    host: '*'
     path: '/externaljwt'
 serviceEndpoints:
   backend:
@@ -29,13 +32,13 @@ pipelines:
       - proxy: &backend
           action:
             serviceEndpoint: backend
+            changeOrigin: true
   externaljwt:
     apiEndpoints:
       - externaljwt
     policies:
       - jwt:
           action:
-            checkCredentialExistence: false
             secretOrPublicKeyFile: '/app/key.pem'
 
       - proxy: *backend
