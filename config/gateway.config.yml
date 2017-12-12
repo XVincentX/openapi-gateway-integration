@@ -16,7 +16,7 @@ pipelines:
       - api
     policies:
       - oauth2:
-        - action:
+          action:
             jwt:
               issuer: express-gateway
               audience: something
@@ -24,5 +24,5 @@ pipelines:
               secretOrPublicKey: ssssst
               checkCredentialExistence: false            
       - proxy:
-          - action:
-              serviceEndpoint: backend
+          action:
+            serviceEndpoint: backend

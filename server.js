@@ -24,12 +24,15 @@ credentialService.insertScopes(['read', 'write'])
   .then(credential => credentialService.addScopesToCredential(credential.id, 'oauth2', ['read', 'write']).then(() => credential))
   .then(credential => Object.assign(appCredential, credential))
   .then((c) => {
-    console.log(process.env.PORT);
     console.log(c);
-    gateway()
-      .load(path.join(__dirname, 'config'))
-      .run()
-})
+});
+
+    const g = gateway()
+      .load(path.join(__dirname, 'config'));
+    const config = require('express-gateway/lib/config');
+    config.gatewayConfig.http.port = process.env.PORT
+    g.run();
+
 
 
 
