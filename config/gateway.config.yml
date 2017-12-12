@@ -35,7 +35,6 @@ pipelines:
     policies:
       - jwt:
           action:
-            <<: *jwtConf
             checkCredentialExistence: false
             secretOrPublicKey: > 
               -----BEGIN CERTIFICATE-----
