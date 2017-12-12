@@ -16,7 +16,7 @@ apiEndpoints:
     paths: ['/externaljwt', '/externaljwt/*']
 serviceEndpoints:
   backend:
-    url: 'https://google.es'
+    url: 'http://httpbin.org'
 policies:
   - proxy
   - jwt
@@ -32,9 +32,9 @@ pipelines:
       - proxy: &httpBinConf
           action:
             serviceEndpoint: backend
-            changeOrigin: false
+            changeOrigin: true
             proxyOptions:
-              prependPath: false
+              prependPath: true
               ignorePath: true
               secure: false
   externaljwt:
