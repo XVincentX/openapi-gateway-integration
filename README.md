@@ -1,4 +1,4 @@
-# E
+# Express-Gateway test instance
 
 ## What's up?
 
