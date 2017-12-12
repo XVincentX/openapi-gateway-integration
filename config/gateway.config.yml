@@ -13,10 +13,10 @@ apiEndpoints:
     paths: ['/internaljwt', '/internaljwt/*']
   externaljwt:
     host: '*'
-    paths: ['/externaljwt', '/externaljwt/*']
+    paths: ['/externaljwt', '/externaljwt/:hey']
 serviceEndpoints:
   backend:
-    url: 'http://httpbin.org'
+    url: 'http://httpbin.org/'
 policies:
   - proxy
   - jwt
