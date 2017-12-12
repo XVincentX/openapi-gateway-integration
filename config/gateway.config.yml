@@ -9,13 +9,13 @@ http:
 apiEndpoints:
   internaljwt:
     host: '*'
-    path: /internaljwt
+    paths: ['/internaljwt', '/internaljwt/*']
   externaljwt:
     host: '*'
-    path: /externaljwt
+    path: ['/externaljwt', '/externaljwt/*']
 serviceEndpoints:
   backend:
-    url: 'http://httpbin.org/ip'
+    url: 'http://httpbin.org'
 policies:
   - proxy
   - jwt
@@ -39,6 +39,6 @@ pipelines:
       - jwt:
           action:
             checkCredentialExistence: false
-            secretOrPublicKeyFile: '/Users/vincenzochianese/dev/express-gateway/lib/config/key.pem'
+            secretOrPublicKeyFile: '/app/key.pem'
 
       - proxy: *backend
