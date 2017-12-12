@@ -12,14 +12,15 @@ admin:
   hostname: localhost
 apiEndpoints:
   api:
-    path: /data
+    host: '*'
   admin:
-    path: /admin
+    host: '*'
+    paths: /admin
 serviceEndpoints:
   backend:
     url: http://httpbin.org
   admin:
-    url: http://127.0.0.1:9876
+    url: http://localhost:9876
     
 policies:
   - proxy
@@ -37,9 +38,6 @@ pipelines:
     apiEndpoints:
       - api
     policies:
-      - oauth2:
-        - action:
-            jwt: *jwtConf
       - proxy:
           - action:
               serviceEndpoint: backend
