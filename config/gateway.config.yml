@@ -3,13 +3,15 @@ jwtConf: &jwtConf
   audience: something
   subject: somebody
   secretOrPublicKey: ssssst
-  checkCredentialExistence: false            
+  checkCredentialExistence: false
 
 http:
   port: 3000
 apiEndpoints:
-  api:
-    host: '*'
+  internaljwt:
+    path: '/internaljwt'
+  externaljwt:
+    path: '/externaljwt'
 serviceEndpoints:
   backend:
     url: 'http://httpbin.org'
@@ -18,13 +20,20 @@ policies:
   - jwt
   - oauth2
 pipelines:
-  api:
+  internaljwt:
     apiEndpoints:
-      - api
+      - internaljwt
     policies:
       - oauth2:
           action:
             jwt: *jwtConf
-      - proxy:
+      - proxy: &backend
           action:
             serviceEndpoint: backend
+  externaljwt:
+    apiEndpoints:
+      - externaljwt
+    policies:
+      - jwt:
+          action: *jwtConf
+      - proxy: *backend
