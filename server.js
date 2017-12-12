@@ -1,3 +1,4 @@
+require('console.table');
 const path = require('path');
 const gateway = require('express-gateway');
 const idGen = require('uuid-base62');
@@ -11,7 +12,6 @@ const appCredential = {
   secret: idGen.v4()
 };
 
-
 credentialService.insertScopes(['read', 'write'])
   .then(() => userService.insert({
     username: idGen.v4(),
@@ -24,15 +24,15 @@ credentialService.insertScopes(['read', 'write'])
   .then(credential => credentialService.addScopesToCredential(credential.id, 'oauth2', ['read', 'write']).then(() => credential))
   .then(credential => Object.assign(appCredential, credential))
   .then((c) => {
-    console.log(c);
-});
-
+    console.table([c]);
     const g = gateway()
       .load(path.join(__dirname, 'config'));
     const config = require('express-gateway/lib/config');
-    config.gatewayConfig.http.port = process.env.PORT
+    config.gatewayConfig.http.port = process.env.PORT;
+    config.gatewayConfig.http.host = 'localhost';
     g.run();
-
+  
+});
 
 
 
