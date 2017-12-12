@@ -1,3 +1,10 @@
+jwtConf: &jwtConf
+  issuer: express-gateway
+  audience: something
+  subject: somebody
+  secretOrPublicKey: ssssst
+  checkCredentialExistence: false            
+
 http:
   port: 3000
 apiEndpoints:
@@ -17,12 +24,7 @@ pipelines:
     policies:
       - oauth2:
           action:
-            jwt:
-              issuer: express-gateway
-              audience: something
-              subject: somebody
-              secretOrPublicKey: ssssst
-              checkCredentialExistence: false            
+            jwt: *jwtConf
       - proxy:
           action:
             serviceEndpoint: backend

@@ -19,17 +19,14 @@ credentialService.insertScopes(['read', 'write'])
     lastname: 'Kent',
     email: 'test@example.com'
   }))
-  .then((user) => appService.insert({ name: 'appy', 'redirectUri': 'http://haha.com' }, user.id))
+  .then((user) => { console.table(user); return appService.insert({ name: 'appy', 'redirectUri': 'http://haha.com' }, user.id) })
   .then((app) => credentialService.insertCredential(app.id, 'oauth2', appCredential))
   .then(credential => credentialService.addScopesToCredential(credential.id, 'oauth2', ['read', 'write']).then(() => credential))
   .then(credential => Object.assign(appCredential, credential))
-  .then((c) => {
-    console.table([c]);
+  .then((credential) => {
+    console.table(credential);
     gateway()
       .load(path.join(__dirname, 'config'))
       .run();
-  
-});
 
-
-
+  });
