@@ -6,21 +6,36 @@ jwtConf: &jwtConf
 
 http:
   port: 3000
+admin:
+  port: 9876
 apiEndpoints:
   internaljwt:
     host: '*'
     paths: ['/internaljwt', '/internaljwt/*']
   externaljwt:
     host: '*'
-    path: ['/externaljwt', '/externaljwt/*']
+    paths: ['/externaljwt', '/externaljwt/*']
+  admin:
+    host: '*'
+    paths: ['/admin', '/admin/*']
 serviceEndpoints:
   backend:
     url: 'http://httpbin.org'
+  admin:
+    url: 'http://localhost:9876'
 policies:
   - proxy
   - jwt
   - oauth2
 pipelines:
+  admin:
+    apiEndpoints:
+      - admin
+    policies:
+      - proxy:
+          action:
+            serviceEndpoint: admin
+            changeOrigin: false
   internaljwt:
     apiEndpoints:
       - internaljwt
