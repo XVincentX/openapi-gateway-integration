@@ -1,8 +1,8 @@
 jwtConf: &jwtConf
-  issuer: 'express-gateway'
-  audience: 'something'
-  subject: 'somebody'
-  secretOrPublicKey: 'ssssst'
+  issuer: express-gateway
+  audience: something
+  subject: somebody
+  secretOrPublicKey: ssssst
   checkCredentialExistence: false
   
 http:
@@ -12,14 +12,14 @@ admin:
   hostname: localhost
 apiEndpoints:
   api:
-    paths: '/data'
+    path: /data
   admin:
-    path: '/admin'
+    path: /admin
 serviceEndpoints:
   backend:
-    url: 'http://httpbin.org'
+    url: http://httpbin.org
   admin:
-    url: 'http://localhost:9876'
+    url: http://127.0.0.1:9876
     
 policies:
   - proxy
