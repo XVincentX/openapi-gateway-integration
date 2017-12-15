@@ -12,7 +12,7 @@ const appCredential = { secret: idGen.v4() };
 
 credentialService.insertScopes(['read', 'write'])
   .then(() => userService.insert({
-    username: idGen.v4(),
+    username: 'Vincenzo',
     firstname: 'Clark',
     lastname: 'Kent',
     email: 'test@example.com'
