@@ -1,7 +1,7 @@
 require('console.table');
 const path = require('path');
 const gateway = require('express-gateway');
-const idGen = require('uuid-base62');
+const idGen = require('uuid62');
 
 const services = require('express-gateway/lib/services');
 const credentialService = services.credential;
