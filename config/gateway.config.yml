@@ -46,5 +46,3 @@ pipelines:
             secretOrPublicKeyFile: '/app/key.pem'
 
       - proxy: *httpBinConf
-        action:
-          - changeOrigin: false
