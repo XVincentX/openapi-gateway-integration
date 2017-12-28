@@ -15,6 +15,7 @@ policies:
   - proxy
   - jwt
   - oauth2
+  - rate-limit
 pipelines:
   internaljwt:
     apiEndpoints:
