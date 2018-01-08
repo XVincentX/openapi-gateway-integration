@@ -1,12 +1,12 @@
 {
   "name": "express-gateway-test",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express-gateway": "https://github.com/ExpressGateway/express-gateway#feat/migrations-schemas",
+    "express-gateway": "https://github.com/ExpressGateway/express-gateway.git",
     "console.table": "0.9.1"
   },
   "engines": {

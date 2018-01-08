@@ -5,4 +5,4 @@ module.exports = {
     name: { isRequired: true, isMutable: true },
     redirectUri: { isRequired: false, isMutable: true }
   }
-};
+}; 
