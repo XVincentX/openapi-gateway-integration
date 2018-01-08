@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express-gateway": "1.5.0",
+    "express-gateway": "https://github.com/ExpressGateway/express-gateway#feat/migrations-schemas",
     "console.table": "0.9.1"
   },
   "engines": {
