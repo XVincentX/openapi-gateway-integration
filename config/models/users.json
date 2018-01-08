@@ -5,10 +5,10 @@
     "firstname": {
       "type": "string"
     },
-    "username": {
+    "lastname": {
       "type": "string"
     },
-    "lastname": {
+    "username": {
       "type": "string"
     },
     "email": {
@@ -21,11 +21,8 @@
     }
   },
   "required": [
+    "username",
     "firstname",
-    "username",
-    "lastname",
-    "username",
-    "username",
-    "username"
+    "lastname"
   ]
 }
