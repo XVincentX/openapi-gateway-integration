@@ -1,49 +1,33 @@
 http:
-  port: 3000
-
+  port: 8080
 apiEndpoints:
-  internaljwt:
+  verticals:
+    path: '/verticals'
+  countries:
+    path: '/countries'
+  msm_standard_proxy:
     host: '*'
-    paths: ['/internaljwt', '/internaljwt/*']
-  externaljwt:
-    host: '*'
-    paths: ['/externaljwt', '/externaljwt/*']
 serviceEndpoints:
-  backend:
-    url: 'http://httpbin.org/'
+  msm_origin:
+    url: 'https://api-origin.musement.com/api/v3/'
 policies:
   - proxy
-  - jwt
-  - oauth2
-  - rate-limit
+  - terminate
 pipelines:
-  internaljwt:
+  common:
     apiEndpoints:
-      - internaljwt
+      - verticals
+      - countries
     policies:
-      - oauth2:
-          action:
-            jwt:
-              issuer: express-gateway
-              audience: something
-              subject: test
-              secretOrPublicKey: ssssst
-              checkCredentialExistence: false
-      - proxy: &httpBinConf
-          action:
-            serviceEndpoint: backend
-            changeOrigin: true
-            proxyOptions:
-              prependPath: true
-              ignorePath: true
-              secure: false
-  externaljwt:
+      - terminate:
+          - action:
+              statusCode: 200
+              message: 'should stop here'
+  verticals_pipeline:
     apiEndpoints:
-      - externaljwt
+      - verticals
     policies:
-      - jwt:
-          action:
-            checkCredentialExistence: false
-            secretOrPublicKeyFile: '/app/key.pem'
-
-      - proxy: *httpBinConf
+      - terminate:
+          - action:
+              statusCode: 500
+              message: 'should NOT stop here'

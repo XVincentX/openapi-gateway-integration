@@ -1,29 +1,5 @@
-require('console.table');
 const path = require('path');
 const gateway = require('express-gateway');
-const idGen = require('uuid62');
 
-const services = require('express-gateway/lib/services');
-const credentialService = services.credential;
-const userService = services.user;
-const appService = services.application;
 
-const appCredential = { secret: idGen.v4() };
-
-credentialService.insertScopes(['read', 'write'])
-  .then(() => userService.insert({
-    username: 'vncz',
-    firstname: 'Clark',
-    lastname: 'Kent',
-    email: 'test@example.com'
-  }))
-  .then((user) => Promise.all([user, credentialService.insertCredential(user.id, 'basic-auth', {})]))
-  .then(([user, cred]) => {console.table('User credentials', [cred]); return user;})
-  .then((user) => appService.insert({ name: 'appy', 'redirectUri': 'http://haha.com' }, user.id))
-  .then((app) => credentialService.insertCredential(app.id, 'oauth2', appCredential))
-  .then(credential => credentialService.addScopesToCredential(credential.id, 'oauth2', ['read', 'write']).then(() => credential))
-  .then(credential => Object.assign(appCredential, credential))
-  .then((credential) => {
-    console.table('Application credentials',[credential]);
-    gateway().load(path.join(__dirname, 'config')).run();
-  });
+gateway().load(path.join(__dirname, 'config')).run();
