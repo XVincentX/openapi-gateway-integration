@@ -2,14 +2,7 @@ http:
   port: ${PORT:-8080}
 apiEndpoints:
   verticals:
-    path: '/verticals'
-  countries:
-    path: '/countries'
-  msm_standard_proxy:
-    host: '*'
-serviceEndpoints:
-  msm_origin:
-    url: 'https://api-origin.musement.com/api/v3/'
+    path: '/stop'
 policies:
   - proxy
   - terminate
@@ -17,17 +10,8 @@ pipelines:
   common:
     apiEndpoints:
       - verticals
-      - countries
     policies:
       - terminate:
           - action:
-              statusCode: 200
-              message: 'should stop here'
-  verticals_pipeline:
-    apiEndpoints:
-      - verticals
-    policies:
-      - terminate:
-          - action:
-              statusCode: 500
-              message: 'should NOT stop here'
+              statusCode: ${STATUS_CODE:-404}
+              message: 'There you are'
