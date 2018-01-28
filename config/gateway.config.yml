@@ -13,5 +13,5 @@ pipelines:
     policies:
       - terminate:
           - action:
-              statusCode: ${STATUS_CODE:-404}
+              statusCode: ${STATUS_CODE}
               message: 'There you are'
