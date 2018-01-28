@@ -13,7 +13,8 @@
       "\\.js$",
       "\\.coffee$",
       "\\.json",
-      "\\.yml"
+      "\\.yml",
+      "\\.env"
     ]
   },
   "throttle": 100
