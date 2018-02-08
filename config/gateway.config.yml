@@ -1,17 +1,26 @@
 http:
-  port: ${PORT:-8080}
+  port: ${PORT}
+# https:
+#   port: 9999
+#   tls: {}
+admin: # remove this section to disable admin API
+  port: 9876
+  hostname: localhost # use 0.0.0.0 to listen on all IPv4 interfaces
 apiEndpoints:
-  verticals:
-    path: '/stop'
+  api:
+    host: '*'
+serviceEndpoints:
+  backend:
+    url: 'http://httpbin.org/'
 policies:
   - proxy
-  - terminate
+  - key-auth
 pipelines:
-  common:
+  adminAPI:
     apiEndpoints:
-      - verticals
+      - api
     policies:
-      - terminate:
+      # - key-auth: # uncomment to enable key-auth
+      - proxy:
           - action:
-              statusCode: ${STATUS_CODE}
-              message: 'There you are'
+              serviceEndpoint: backend
