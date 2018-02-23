@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express-gateway": "https://github.com/ExpressGateway/express-gateway.git",
+    "express-gateway": "^1.7.2",
     "console.table": "^0.10.0"
   },
   "engines": {
