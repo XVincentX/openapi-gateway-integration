@@ -10,15 +10,20 @@ services.user.insert(
 	"lastname": "Chianese",
 	"email": "test@foo.com"
 }).then((user)=> {
-  console.table([user]);
-  return services.application.insert({
+  console.table({username: user.username, id: user.id});
+  return Promise.all([user, services.application.insert({
 	"name": "my-app",
 	"redirectUri": "http://example.com"
-  }, user.id);
-}).then((app)=>{
-  console.table([app])
+  }, user.id)])
+}).then(([user, app])=>{
+  console.table([{id: app.id, name: app.name, redirectUri: app.redirectUri}])
   
-}).then(()=>{
+  return Promise.all([
+    services.credential.insertCredential(user.id, 'basic-auth'),
+    services.credential.insertCredential(app.id, 'oauth2'),
+  ]);
+}).then((credentials)=>{
+  console.table(credentials.map((c)=>({id: c.id, password: c.password||c.secret})));
   gateway().load(path.join(__dirname, 'config')).run();
 });
 
