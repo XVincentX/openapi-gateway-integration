@@ -30,6 +30,7 @@ pipelines:
       - proxy: &httpBinConf
           - action:
               serviceEndpoint: backend
+              changeOrigin: true
   externaljwt:
     apiEndpoints:
       - externaljwt
