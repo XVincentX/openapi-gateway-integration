@@ -1,5 +1,8 @@
 http:
+  port: 1234
+admin:
   port: ${PORT}
+  hostname: 0.0.0.0
 apiEndpoints:
   internaljwt:
     host: '*'
@@ -10,6 +13,8 @@ apiEndpoints:
 serviceEndpoints:
   backend:
     url: 'http://httpbin.org/'
+  admin:
+    url: 'http://localhost:9876/'
 policies:
   - proxy
   - jwt
