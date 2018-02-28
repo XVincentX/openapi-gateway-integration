@@ -15,7 +15,7 @@ session:
   saveUninitialized: false
 accessTokens:
   timeToExpiry: 7200000
-  tokenType: 'opaque' # or JWT
+  tokenType: 'jwt'
   issuer: 'express-gateway'
   audience: 'something'
   subject: 'somebody'
