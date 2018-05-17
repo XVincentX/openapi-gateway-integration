@@ -6,11 +6,11 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express-gateway": "^1.7.2",
+    "express-gateway": "^1.9.1",
     "console.table": "^0.10.0"
   },
   "engines": {
-    "node": "9.x"
+    "node": "10.x"
   },
   "license": "MIT"
 }
