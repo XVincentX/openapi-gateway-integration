@@ -17,6 +17,7 @@ pipelines:
     apiEndpoints:
       - pets
     policies:
+      - key-auth:
       - proxy:
         - action:
             serviceEndpoint: backend
