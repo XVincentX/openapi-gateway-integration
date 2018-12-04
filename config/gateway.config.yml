@@ -1,42 +1,23 @@
 http:
   port: ${PORT}
 apiEndpoints:
-  internaljwt:
-    host: '*'
-    paths: ['/internaljwt', '/internaljwt/*']
-  externaljwt:
-    host: '*'
-    paths: ['/externaljwt', '/externaljwt/*']    
+  pets:
+    paths: ['/pets']
+  petFood:
+    paths: ['/petFood']
 serviceEndpoints:
   backend:
-    url: 'http://httpbin.org/'
+    url: 'https://petstore-backend.glitch.me'
 policies:
   - proxy
-  - jwt
-  - oauth2
+  - key-auth
+  - basic-auth
 pipelines:
-  internaljwt:
+  pets:
     apiEndpoints:
-      - internaljwt
+      - pets
     policies:
-      - oauth2:
-          action:
-            jwt:
-              issuer: express-gateway
-              audience: something
-              subject: test
-              secretOrPublicKey: ssssst
-              checkCredentialExistence: false
-      - proxy: &httpBinConf
-          - action:
-              serviceEndpoint: backend
-              changeOrigin: true
-  externaljwt:
-    apiEndpoints:
-      - externaljwt
-    policies:
-      - jwt:
-          action:
-            checkCredentialExistence: false
-            secretOrPublicKeyFile: '/app/key.pem'
-      - proxy: *httpBinConf
+      - proxy:
+        - action:
+            serviceEndpoint: backend
+            

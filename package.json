@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express-gateway": "^1.11.0",
+    "express-gateway": "^1.13.0",
     "console.table": "^0.10.0"
   },
   "engines": {
