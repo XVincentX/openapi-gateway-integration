@@ -7,7 +7,7 @@ apiEndpoints:
     paths: ['/petFood']
 serviceEndpoints:
   backend:
-    url: 'https://petstore-backend.glitch.me'
+    url: ${URL}
 policies:
   - proxy
   - key-auth
@@ -20,4 +20,3 @@ pipelines:
       - proxy:
         - action:
             serviceEndpoint: backend
-            

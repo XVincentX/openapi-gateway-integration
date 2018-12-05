@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  "node-10":
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/repo
+
+    environment:
+      - PORT: 8080
+      - EG_CONFIG_DIR: /home/circleci/repo/config
+
+    steps:
+      - checkout
+      - run: curl -L https://github.com/stoplightio/prism/releases/download/v2.0.16/prism_linux_amd64 -o prism && chmod +x ./prism
+      - run: npm install
+      - run: git clone https://vncz:$STOPLIGHT_TOKEN@git.stoplight.io/vncz/petstore.git sl
+      - run:
+          command: npm start
+          background: true
+      - run: sleep 5
+      - run: ./prism conduct ./sl/tests.scenarios.yml -e host=http://localhost:$PORT
+      - run git config --global user.name $GLITCH_TOKEN
+      - run: git remote add deploy https://api.glitch.com/petstore-backend/git
+      - run: git push deploy master
+workflows:
+  version: 2
+  build:
+    jobs:
+      - node-10: {}
