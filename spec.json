@@ -1,0 +1,89 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Pet Store API",
+    "version": "1.0"
+  },
+  "host": "example.com",
+  "paths": {
+    "/pets": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Pet": {
+      "type": "object",
+      "title": "Pet",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "age"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        }
+      }
+    },
+    "PetFood": {
+      "type": "object",
+      "title": "PetFood",
+      "required": [
+        "type",
+        "brand"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "croquete",
+            "beverage"
+          ]
+        },
+        "brand": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

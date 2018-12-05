@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "prism validate --spec spec.json --upstream http://localhost:8080"
   },
   "dependencies": {
     "express-gateway": "^1.13.0",
