@@ -7,8 +7,9 @@
     "test": "prism validate --spec spec.json --upstream http://localhost:8080"
   },
   "dependencies": {
-    "express-gateway": "^1.13.0",
-    "console.table": "^0.10.0"
+    "express-gateway": "1.13.0",
+    "console.table": "0.10.0",
+    "axios": "0.18.0"
   },
   "engines": {
     "node": "10.x"

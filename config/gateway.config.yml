@@ -1,13 +1,19 @@
 http:
   port: ${PORT}
+admin:
+  port: 9876
 apiEndpoints:
   pets:
     paths: ['/pets']
   petFood:
     paths: ['/petFood']
+  admin:
+    paths: ['/admin']
 serviceEndpoints:
   backend:
     url: ${URL}
+  admin:
+    url: http://localhost:9876
 policies:
   - proxy
   - key-auth
@@ -20,3 +26,10 @@ pipelines:
       - proxy:
         - action:
             serviceEndpoint: backend
+  admin:
+    apiEndpoints:
+      - admin
+    policies:
+      - proxy:
+        - action:
+            serviceEndpoint: admin
