@@ -27,9 +27,12 @@ jobs:
 
     steps:
       - checkout
-      - run: git remote add deploy https://$GLITCH_TOKEN:@api.glitch.com/petstore-backend/git
+      - run: npm install
+      - run: git clone https://vncz:$STOPLIGHT_TOKEN@git.stoplight.io/vncz/petstore.git sl
+      - run: git remote add deploy https://$GLITCH_TOKEN:@api.glitch.com/egpetstore/git
       - run: git checkout -b glitch
       - run: git push -f --set-upstream deploy glitch
+      - run: node deploy.js
 
 workflows:
   version: 2

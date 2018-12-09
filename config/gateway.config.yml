@@ -8,7 +8,7 @@ apiEndpoints:
   petFood:
     paths: ['/petFood']
   admin:
-    paths: ['/admin']
+    paths: ['/admin*']
 serviceEndpoints:
   backend:
     url: ${URL}
@@ -26,6 +26,13 @@ pipelines:
       - proxy:
         - action:
             serviceEndpoint: backend
+  petFood:
+    apiEndpoints:
+      - petFood
+    policies:
+      - proxy:
+        - action:
+            serviceEndpoint: backend
   admin:
     apiEndpoints:
       - admin
@@ -33,3 +40,4 @@ pipelines:
       - proxy:
         - action:
             serviceEndpoint: admin
+            stripPath: true
