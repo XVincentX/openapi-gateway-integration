@@ -4,11 +4,11 @@ admin:
   port: 9876
 apiEndpoints:
   pets:
-    paths: ['/pets']
+    path: '/pets'
   petFood:
-    paths: ['/petFood']
+    path: '/petFood'
   admin:
-    paths: ['/admin*']
+    path: '/admin*'
 serviceEndpoints:
   backend:
     url: ${URL}
@@ -18,11 +18,38 @@ policies:
   - proxy
   - key-auth
   - basic-auth
+  - terminate
 pipelines:
   pets:
     apiEndpoints:
       - pets
     policies:
+      - terminate:
+        - condition:
+            name: allOf
+            conditions:
+              - name: method
+                methods: POST
+              - name: not
+                condition:
+                  name: json-schema
+                  schema:
+                    $id: 'pet'
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                          - dog
+                          - cat
+                      favoriteFood:
+                        type: string
+                    required:
+                      - name
+                      - type
+                      - favoriteFood
       - proxy:
         - action:
             serviceEndpoint: backend
@@ -30,6 +57,27 @@ pipelines:
     apiEndpoints:
       - petFood
     policies:
+      - terminate:
+        - condition:
+            name: allOf
+            conditions:
+              - name: method
+                methods: POST
+
+              - name: not
+                condition:
+                  name: json-schema
+                  schema:
+                    $id: 'food'
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      brand:
+                        type: string
+                    required:
+                      - name
+                      - brand
       - proxy:
         - action:
             serviceEndpoint: backend
