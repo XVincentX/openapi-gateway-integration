@@ -96,7 +96,6 @@ pipelines:
       - terminate:
           - action:
               statusCode: 422
-
   admin:
     apiEndpoints:
       - admin
