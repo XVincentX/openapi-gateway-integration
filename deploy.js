@@ -3,7 +3,7 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 
 const baseURL = process.env.URL;
-const spec = yaml.safeLoad(fs.readFileSync('./sl/petStore.oas2.yml'));
+const spec = yaml.safeLoad(fs.readFileSync('./sl/petStore.oas3.yml'));
 const paths = spec.paths;
 
 Object.keys(paths).forEach(path => {
