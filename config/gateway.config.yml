@@ -11,7 +11,7 @@ apiEndpoints:
     path: '/admin*'
 serviceEndpoints:
   backend:
-    url: ${URL}
+    url: ${URL|http://localhost:9876}
   admin:
     url: http://localhost:9876
 policies:
@@ -50,6 +50,8 @@ pipelines:
                       - name
                       - type
                       - favoriteFood
+          action:
+            statusCode: 422
       - proxy:
         - action:
             serviceEndpoint: backend
@@ -78,6 +80,8 @@ pipelines:
                     required:
                       - name
                       - brand
+          action:
+            statusCode: 422
       - proxy:
         - action:
             serviceEndpoint: backend
