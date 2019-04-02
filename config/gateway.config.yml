@@ -19,7 +19,7 @@ apiEndpoints:
     path: '/admin*'
 serviceEndpoints:
   backend:
-    url: http://localhost:9876
+    url: ${URL}
   admin:
     url: http://localhost:9876
 policies:
@@ -27,13 +27,6 @@ policies:
   - key-auth
   - terminate
 pipelines:
-  pets:
-    apiEndpoints:
-      - pets
-    policies:
-      - proxy:
-        - action:
-            serviceEndpoint: backend
   createPet:
     apiEndpoints:
       - createPet
@@ -63,11 +56,10 @@ pipelines:
                 - favoriteFood
       - terminate:
           - action:
-              statusCode: 422
-
-  petFood:
+              statusCode: 422  
+  pets:
     apiEndpoints:
-      - petFood
+      - pets
     policies:
       - proxy:
         - action:
@@ -96,6 +88,13 @@ pipelines:
       - terminate:
           - action:
               statusCode: 422
+  petFood:
+    apiEndpoints:
+      - petFood
+    policies:
+      - proxy:
+        - action:
+            serviceEndpoint: backend
   admin:
     apiEndpoints:
       - admin
