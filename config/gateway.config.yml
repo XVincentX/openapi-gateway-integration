@@ -19,7 +19,7 @@ apiEndpoints:
     path: '/admin*'
 serviceEndpoints:
   backend:
-    url: ${URL}
+    url: ${URL:-http://localhost:9876}
   admin:
     url: http://localhost:9876
 policies:

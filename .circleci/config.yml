@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - checkout
-      - run: curl -L https://github.com/stoplightio/prism/releases/download/v2.0.16/prism_linux_amd64 -o prism && chmod +x ./prism
+      - run: curl -L https://github.com/stoplightio/prism/releases/download/v2.0.17/prism_linux_amd64 -o prism && chmod +x ./prism
       - run: npm ci
       - run: git clone https://vncz:$STOPLIGHT_TOKEN@git.stoplight.io/vncz/petstore.git sl
       - run:
