@@ -8,7 +8,7 @@ jobs:
     environment:
       - PORT: 8080
       - EG_CONFIG_DIR: /home/circleci/repo/config
-      - URL: http://petstore-backend.glitch.me
+      - URL: https://petstore-backend.glitch.me
       - LOG_LEVEL: debug
 
     steps:
@@ -20,7 +20,7 @@ jobs:
           command: npm start
           background: true
       - run: sleep 1
-      - run: ./prism conduct ./sl/tests.scenarios.yml -e host=http://localhost:$PORT
+      - run: ./prism conduct ./sl/tests.scenarios.yml -e host=https://petstore-backend.glitch.me
 
   deploy:
     docker:
