@@ -9,7 +9,7 @@
   "dependencies": {
     "axios": "0.18.0",
     "console.table": "0.10.0",
-    "express-gateway": "1.16.0",
+    "express-gateway": "1.16.2",
     "js-yaml": "3.13.0"
   },
   "engines": {
