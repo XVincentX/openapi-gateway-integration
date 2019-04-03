@@ -27,6 +27,9 @@ jobs:
       - image: circleci/node:10
     working_directory: ~/repo
 
+    environment:
+      - URL: https://egpetstore.glitch.me
+
     steps:
       - checkout
       - run: npm ci
