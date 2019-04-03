@@ -4,34 +4,41 @@ const yaml = require('js-yaml');
 
 const baseURL = process.env.URL;
 const spec = yaml.safeLoad(fs.readFileSync('./sl/petstore.oas2.yml'));
-const paths = spec.paths;
 
-Object.keys(paths).forEach(path => {
-  let sec = []
-  const url = `admin/pipelines${path}`;
+const transform = (s) => {
+  return s.charAt(0).toUpperCase() + s.substr(1);
+}
 
-  Object.keys(paths[path]).forEach(verb => {
+const main = async () => {
 
-    if (paths[path][verb].security) {
-      paths[path][verb].security.forEach(security => {
-        console.log(`Security configuration found for ${path} — ${JSON.stringify(security)}`)
+  const definitions = spec.definitions;
 
-        sec[0] = {};
-        Object.keys(security).forEach(secKey => {
-          sec[0][secKey] = {};
-        })
-      })
-    }
+  Object.keys(definitions).forEach(async definition => {
+    console.log(`Processing ${definition}`);
 
-    axios.put(url, {
-      apiEndpoints: ['pets'],
+    const url = `admin/pipelines/create${transform(definition)}`;
+
+    return axios.put(url, {
+      apiEndpoints: [`create${transform(definition)}`],
       policies: [
-        ...sec,
         {
           proxy: [
             {
               action: {
                 serviceEndpoint: 'backend'
+              },
+              condition: {
+                name: "json-schema",
+                logErrors: true,
+                schema: definitions[definition]
+              }
+            }
+          ]
+        }, {
+          terminate: [
+            {
+              action: {
+                statusCode: 422
               }
             }
           ]
@@ -41,4 +48,8 @@ Object.keys(paths).forEach(path => {
         baseURL,
       }).then(() => console.log("Done " + url)).catch(e => console.error(e));
   });
-});
+
+}
+
+main();
+
