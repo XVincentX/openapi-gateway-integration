@@ -121,6 +121,7 @@
   ],
   "definitions": {
     "pet": {
+      "$id": "pet",
       "type": "object",
       "properties": {
         "name": {
@@ -144,6 +145,7 @@
       ]
     },
     "petFood": {
+      "$id": "petFood",
       "type": "object",
       "properties": {
         "name": {
