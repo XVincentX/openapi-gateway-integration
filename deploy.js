@@ -46,7 +46,7 @@ const main = async () => {
       ]
     }, {
         baseURL,
-      }).then(() => console.log("Done " + url)).catch(e => console.error(e));
+      }).then(() => console.log("Done " + url)).catch(e => { console.error(e); process.exit(1) });
   });
 
 }
