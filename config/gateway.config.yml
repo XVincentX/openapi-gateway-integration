@@ -4,56 +4,64 @@ admin:
   port: 9876
 apiEndpoints:
   createPet:
-    path: '/pets'
+    path: /pets
     methods:
       - POST
   pets:
-    path: '/pets'
+    path: /pets
   createPetFood:
-    path: '/petFood'
+    path: /petFood
     methods:
       - POST
   petFood:
-    path: '/petFood'
+    path: /petFood
   admin:
-    path: '/admin*'
+    path: /admin*
 serviceEndpoints:
   backend:
     url: ${URL}
   admin:
-    url: http://localhost:9876
+    url: 'http://localhost:9876'
 policies:
   - proxy
-  - key-auth
+  - cors
+  - jwt
   - terminate
 pipelines:
   createPet:
     apiEndpoints:
       - createPet
     policies:
-      - proxy:
+      - cors:
+      - jwt:
         - action:
-            serviceEndpoint: backend
-          condition:
-            name: json-schema
-            logErrors: true
-            schema:
-              $id: 'pet'
-              type: object
-              properties:
-                name:
-                  type: string
-                type:
-                  type: string
-                  enum:
-                    - dog
-                    - cat
-                favoriteFood:
-                  type: string
-              required:
-                - name
-                - type
-                - favoriteFood
+            checkCredentialExistence: false
+            secretOrPublicKeyFile: "/app/config/cert.pem"
+            audience: 'https://api.apitest.lan'
+      - proxy:
+          - action:
+              serviceEndpoint: backend
+            condition:
+              name: json-schema
+              logErrors: true
+              schema:
+                $id: pet
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  type:
+                    type: string
+                    enum:
+                      - dog
+                      - cat
+                  favoriteFood:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - type
       - terminate:
           - action:
               statusCode: 422
@@ -61,30 +69,34 @@ pipelines:
     apiEndpoints:
       - pets
     policies:
+      - cors:
       - proxy:
-        - action:
-            serviceEndpoint: backend
+          - action:
+              serviceEndpoint: backend
   createPetFood:
     apiEndpoints:
       - createPetFood
     policies:
+      - cors:
       - proxy:
-        - action:
-            serviceEndpoint: backend
-          condition:
-            name: json-schema
-            logErrors: true
-            schema:
-              $id: 'petFood'
-              type: object
-              properties:
-                name:
-                  type: string
-                brand:
-                  type: string
-              required:
-                - name
-                - brand
+          - action:
+              serviceEndpoint: backend
+            condition:
+              name: json-schema
+              logErrors: true
+              schema:
+                $id: petFood
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  brand:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - brand
       - terminate:
           - action:
               statusCode: 422
@@ -92,14 +104,16 @@ pipelines:
     apiEndpoints:
       - petFood
     policies:
+      - cors:
       - proxy:
-        - action:
-            serviceEndpoint: backend
+          - action:
+              serviceEndpoint: backend
   admin:
     apiEndpoints:
       - admin
     policies:
+      - cors:
       - proxy:
-        - action:
-            serviceEndpoint: admin
-            stripPath: true
+          - action:
+              serviceEndpoint: admin
+              stripPath: true
