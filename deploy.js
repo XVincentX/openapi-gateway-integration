@@ -22,6 +22,7 @@ const main = async () => {
       apiEndpoints: [`create${transform(definition)}`],
       policies: [
         {
+          cors: {},
           proxy: [
             {
               action: {
@@ -52,4 +53,3 @@ const main = async () => {
 }
 
 main();
-
