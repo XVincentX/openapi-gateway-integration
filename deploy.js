@@ -12,6 +12,12 @@ const transform = (s) => {
 const main = async () => {
 
   const definitions = spec.definitions;
+  let security;
+
+  if (spec.security) {
+    security =
+      spec.securityDefinitions[Object.keys(spec.security[0])[0]]
+  }
 
   Object.keys(definitions).forEach(async definition => {
     console.log(`Processing ${definition}`);
@@ -22,7 +28,21 @@ const main = async () => {
       apiEndpoints: [`create${transform(definition)}`],
       policies: [
         {
-          cors: {},
+          cors: {}
+        },
+        {
+          jwt: security && security.type === 'oauth2' ? [
+            {
+              action: {
+                checkCredentialExistence: false,
+                secretOrPublicKeyFile: "/app/config/cert.pem",
+                audience: "https://api.apitest.lan"
+              }
+            }
+          ]
+            : undefined,
+        },
+        {
           proxy: [
             {
               action: {
@@ -35,7 +55,8 @@ const main = async () => {
               }
             }
           ]
-        }, {
+        },
+        {
           terminate: [
             {
               action: {
@@ -52,4 +73,10 @@ const main = async () => {
 
 }
 
-main();
+try {
+  main();
+
+} catch (e) {
+  console.error(e);
+  process.exit(1);
+}
