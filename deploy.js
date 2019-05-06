@@ -20,7 +20,7 @@ const main = () => {
       spec.securityDefinitions[Object.keys(spec.security[0])[0]]
   }
 
-  const q = queue(definition, callback => {
+  const q = queue((definition, callback) => {
     {
       console.log(`Processing ${definition}`);
 
@@ -29,21 +29,6 @@ const main = () => {
       const payload = {
         apiEndpoints: [`create${transform(definition)}`],
         policies: [
-          {
-            cors: {}
-          },
-          {
-            jwt: security && security.type === 'oauth2' ? [
-              {
-                action: {
-                  checkCredentialExistence: false,
-                  secretOrPublicKeyFile: "/app/config/cert.pem",
-                  audience: "https://api.apitest.lan"
-                }
-              }
-            ]
-              : undefined,
-          },
           {
             proxy: [
               {
@@ -69,14 +54,28 @@ const main = () => {
           }
         ]
       }
+      if (security)
+        payload.policies.unshift({
+          jwt: [
+            {
+              action: {
+                checkCredentialExistence: false,
+                secretOrPublicKeyFile: "/app/config/cert.pem",
+                audience: "https://api.apitest.lan"
+              }
+            }
+          ]
+        })
+
+      payload.policies.unshift({ cors: { origin: '*' } })
 
       return axios.put(url, payload, {
         baseURL,
-      }).then(() => console.log("Done " + url)).catch(e => { console.error(e); process.exit(1) });
+      }).then(() => { console.log("Done " + url); callback(); }).catch(e => { console.error(e); callback(e); });
     }
   })
 
-  Object.keys(definitions).forEach(q.push(definition));
+  Object.keys(definitions).forEach(definition => q.push(definition));
 
   q.drain = function () {
     console.log("Finish!");
@@ -84,6 +83,7 @@ const main = () => {
 
   q.error = function (e) {
     console.error(e);
+    process.exit(1);
   }
 
 }
