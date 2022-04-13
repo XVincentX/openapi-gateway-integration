@@ -7,7 +7,7 @@
     "test": "prism validate --spec spec.json --upstream http://localhost:8080"
   },
   "dependencies": {
-    "async": "^2.6.2",
+    "async": "^3.2.2",
     "axios": "0.18.0",
     "console.table": "0.10.0",
     "express-gateway": "1.16.2",
